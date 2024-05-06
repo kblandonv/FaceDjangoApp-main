@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from .models import LogoPerfil
 
 class UserSerializer(serializers.Serializer):
+    """
+    Serializer class for User model.
+    """
 
     username = serializers.CharField()
     first_name = serializers.CharField()
@@ -11,6 +14,15 @@ class UserSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def create(self, validated_data):
+        """
+        Create and save a new User instance.
+
+        Args:
+            validated_data (dict): Validated data for creating a new User.
+
+        Returns:
+            User: Created User instance.
+        """
         user = User()
         logo = LogoPerfil()
         user.username = validated_data.get('username')
@@ -29,16 +41,38 @@ class UserSerializer(serializers.Serializer):
         return user
         
     def validated_username(self, data):
-        user = User.objects.filter(username = data)
+        """
+        Validate the uniqueness of the username.
+
+        Args:
+            data (str): Username to be validated.
+
+        Returns:
+            str: Validated username.
+
+        Raises:
+            serializers.ValidationError: If the username already exists.
+        """
+        user = User.objects.filter(username=data)
         if len(user) > 0:
             raise serializers.ValidationError('Username existente')
         else:
             return data
 
 class UserInfoSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user information.
+
+    This serializer is used to serialize the user model fields such as id, username, first_name, and last_name.
+
+    Attributes:
+        model (User): The User model class.
+        fields (list): The list of fields to be serialized.
+
+    """
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name'] 
+        fields = ['id', 'username', 'first_name', 'last_name']
 
 

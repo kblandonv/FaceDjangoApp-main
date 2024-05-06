@@ -5,6 +5,36 @@ from rest_framework import status
 # Create your views here.
 
 class getEndPoints(APIView):
+    """
+    A class-based view that returns a list of available endpoints.
+
+    Each endpoint is represented as a dictionary with the following keys:
+    - 'Endpoint': The URL endpoint.
+    - 'method': The HTTP method used for the endpoint.
+    - 'body': The request body for the endpoint.
+    - 'descrption': A description of the endpoint.
+
+    Example usage:
+    ```
+    {
+        'Endpoint': 'autenticacion/registrar',
+        'method': 'POST',
+        'body': {'body': ""},
+        'descrption': 'Crea un nuevo usuario'
+    }
+    ```
+
+    Returns:
+    A list of dictionaries representing the available endpoints.
+    """
+    def get(self, requets):
+        
+        end_points = [
+            # List of available endpoints
+        ]
+        
+        return Response(end_points, status=status.HTTP_200_OK)
+class getEndPoints(APIView):
 
     def get(self, requets):
         

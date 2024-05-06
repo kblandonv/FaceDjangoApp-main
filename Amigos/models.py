@@ -5,6 +5,16 @@ User = get_user_model()
 
 # Create your models here.
 class Solicitud_amistad(models.Model):
+    """
+    Represents a friendship request between two users.
+
+    Attributes:
+        user_sender (User): The user who sent the friendship request.
+        user_receptor (User): The user who received the friendship request.
+        is_aceptada (bool): Indicates whether the friendship request has been accepted.
+        created (datetime): The date and time when the friendship request was created.
+    """
+
     user_sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)
     user_receptor = models.ForeignKey(User, related_name='receptor', on_delete=models.CASCADE)
     is_aceptada = models.BooleanField(default=False)
@@ -28,11 +38,21 @@ class Solicitud_amistad(models.Model):
 #         verbose_name_plural = 'Amistades'
 
 class Mensaje(models.Model):
+    """
+    Represents a message in the application.
+    
+    Attributes:
+        amistad (Solicitud_amistad): The friendship associated with the message.
+        enviado_por (User): The user who sent the message.
+        mensaje (str): The content of the message.
+        created (datetime): The date and time when the message was created.
+        time_expire (datetime): The date and time when the message will expire.
+    """
     amistad = models.ForeignKey(Solicitud_amistad, on_delete=models.CASCADE)
     enviado_por = models.ForeignKey(User, on_delete=models.CASCADE)
     mensaje = models.CharField(max_length=250)
     created = models.DateTimeField(auto_now_add=True)
-    time_expire = models.DateTimeField(default= (datetime.now() + timedelta(days=5)))
+    time_expire = models.DateTimeField(default=(datetime.now() + timedelta(days=5)))
 
 
     class Meta:
